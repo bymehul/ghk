@@ -94,7 +94,7 @@ jobs:
           generate_release_notes: true
 
   deb:
-    needs: build
+    needs: release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -131,7 +131,7 @@ jobs:
           files: ghk_*.deb
 
   rpm:
-    needs: build
+    needs: release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
