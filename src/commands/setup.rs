@@ -147,9 +147,13 @@ fn runsudo(args: &[&str]) -> Result<()> {
         return Ok(());
     }
 
-    let euid = unsafe { libc::geteuid() };
+    // Check if running as root (Unix only)
+    #[cfg(unix)]
+    let is_root = unsafe { libc::geteuid() } == 0;
+    #[cfg(not(unix))]
+    let is_root = false;
     
-    let status = if euid == 0 {
+    let status = if is_root {
         Command::new(args[0]).args(&args[1..]).status()
     } else {
         util::dim("This requires admin access...");
