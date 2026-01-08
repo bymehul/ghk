@@ -32,28 +32,31 @@ pub fn run() -> Result<()> {
 
     // Safety check for scary files (sensitive or large temp files)
     let files = git::changedfiles()?;
-    let scary_patterns = [
-        ".env", "node_modules", "target", "dist", "venv", ".venv",
-        "vendor", ".DS_Store", "thumbs.db", "__pycache__"
+    let scarypatterns = [
+        ".env", "node_modules", "target", "dist", "venv", ".venv", "env",
+        "vendor", ".DS_Store", "thumbs.db", "__pycache__", "desktop.ini",
+        ".vscode", ".idea", "build", "out", "bin", "obj", "pyc", "pyo",
+        "log", "tmp", "bak", "swp", "exe", "dll", "so", "dylib"
     ];
 
-    let mut found_scary = Vec::new();
+    let mut foundscary = Vec::new();
     for file in &files {
-        for pattern in &scary_patterns {
-            if file.contains(pattern) {
-                found_scary.push(file.clone());
+        let filelow = file.to_lowercase();
+        for pattern in &scarypatterns {
+            if filelow.contains(pattern) {
+                foundscary.push(file.clone());
                 break;
             }
         }
     }
 
-    if !found_scary.is_empty() {
+    if !foundscary.is_empty() {
         util::warn("Wait! Potential sensitive or temporary files detected:");
-        for file in found_scary.iter().take(5) {
+        for file in foundscary.iter().take(5) {
             util::dim(&format!("  {}", file));
         }
-        if found_scary.len() > 5 {
-            util::dim(&format!("  ... and {} more", found_scary.len() - 5));
+        if foundscary.len() > 5 {
+            util::dim(&format!("  ... and {} more", foundscary.len() - 5));
         }
         
         if !std::path::Path::new(".gitignore").exists() {
@@ -70,7 +73,7 @@ pub fn run() -> Result<()> {
             util::info("Cancelled. Clean up your files or add them to .gitignore.");
             return Ok(());
         }
-        println!(); // Add space before showing other changes
+        println!(); 
     }
 
     // Show what will be saved
