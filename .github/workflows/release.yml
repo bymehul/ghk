@@ -77,16 +77,11 @@ jobs:
       - name: Prepare release files
         run: |
           cd artifacts
-          # Each artifact is a directory containing the binary
-          for dir in */; do
-            name="${dir%/}"
-            if [ -f "$dir/$name" ]; then
-              mv "$dir/$name" "./$name"
-            elif [ -f "$dir"* ]; then
-              mv "$dir"* "./"
-            fi
-            rm -rf "$dir"
-          done
+          mkdir tmp
+          find . -maxdepth 2 -type f -name "ghk*" -exec mv {} tmp/ \;
+          rm -rf ghk-*
+          mv tmp/* .
+          rmdir tmp
           ls -la
           sha256sum ghk-* > checksums.txt
 
