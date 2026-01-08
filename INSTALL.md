@@ -30,8 +30,12 @@ yay -S ghk
 paru -S ghk
 ```
 
-### Windows
-Download `ghk-windows-x86_64.exe` from [releases](https://github.com/bymehul/ghk/releases) and add to PATH.
+### Windows (PowerShell)
+```powershell
+irm https://raw.githubusercontent.com/bymehul/ghk/main/install.ps1 | iex
+```
+
+Or download `ghk-windows-x86_64.exe` from [releases](https://github.com/bymehul/ghk/releases), rename to `ghk.exe`, and add to PATH.
 
 ## From Source
 

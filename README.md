@@ -29,11 +29,14 @@ sudo dpkg -i ghk_*.deb
 # Fedora/RHEL
 sudo rpm -i https://github.com/bymehul/ghk/releases/latest/download/ghk-1.0.0-1.x86_64.rpm
 
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/bymehul/ghk/main/install.ps1 | iex
+
 # From source (requires Rust)
 cargo install --git https://github.com/bymehul/ghk
 ```
 
-See [INSTALL.md](INSTALL.md) for all options including Windows.
+See [INSTALL.md](INSTALL.md) for detailed instructions.
 
 ## Quick Start
 
