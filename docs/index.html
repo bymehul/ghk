@@ -202,10 +202,11 @@ sudo dpkg -i ghk_1.0.0_amd64.deb</code>
         <code>yay -S ghk</code>
         <p style="opacity: 0.6; font-size: 0.9rem;">Or download from releases and move to /usr/bin/</p>
 
-        <h3>Windows</h3>
-        <p>Download <code class="inline-code">ghk-windows-x86_64.exe</code> from <a
-                href="https://github.com/bymehul/ghk/releases">releases</a>, rename to <code
-                class="inline-code">ghk.exe</code>, add folder to PATH.</p>
+        <h3>Windows (PowerShell)</h3>
+        <code>irm https://raw.githubusercontent.com/bymehul/ghk/main/install.ps1 | iex</code>
+        <p style="opacity: 0.6; font-size: 0.9rem;">Or download <code class="inline-code">ghk-windows-x86_64.exe</code>
+            from <a href="https://github.com/bymehul/ghk/releases">releases</a>, rename to <code
+                class="inline-code">ghk.exe</code>, add to PATH.</p>
 
         <h3>From Source (requires Rust)</h3>
         <code>cargo install --git https://github.com/bymehul/ghk</code>
