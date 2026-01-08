@@ -78,6 +78,14 @@ pub fn setnocolor(c: bool) {
     unsafe { NOCOLOR = c; }
 }
 
+pub fn get_nocolor() -> bool {
+    unsafe { NOCOLOR }
+}
+
+pub fn get_quiet() -> bool {
+    unsafe { QUIET }
+}
+
 pub fn isnocolor() -> bool {
     unsafe { NOCOLOR }
 }
