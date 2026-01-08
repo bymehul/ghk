@@ -7,16 +7,14 @@ pub fn run(cli: crate::cli::Cli) -> Result<()> {
     config::setquiet(cli.quiet);
     config::setnocolor(cli.nocolor);
 
-    // First, check for quiet to avoid unnecessary calls to isfirstrun()
     if !cli.quiet && config::isfirstrun() {
         welcome();
 
         // Save config to mark first run complete
         let cfg = config::Config::default();
-        if let Err(e) = cfg.save() {
-            // In production, we might want to log this differently.
+        if let Err(_e) = cfg.save() {
             #[cfg(debug_assertions)]
-            eprintln!("Debug: Failed to save config: {}", e);
+            eprintln!("Debug: Failed to save config: {}", _e);
         }
     }
 
@@ -51,8 +49,7 @@ pub fn run(cli: crate::cli::Cli) -> Result<()> {
 fn welcome() {
     use std::io::{self, Write};
 
-    // Production-optimized version - fewer prints, no ANSI codes if noocolor is active
-    if !config::nocolor() {
+    if !config::get_nocolor() {
         println!("\n  \x1b[1m\x1b[36mWelcome to ghk!\x1b[0m");
         println!("\n  Simple GitHub helper - push code without the complexity");
         println!("\n  Quick start:");
@@ -62,7 +59,7 @@ fn welcome() {
         println!("    \x1b[90mghk push\x1b[0m     Save your changes");
         println!("\n  Run \x1b[90mghk --help\x1b[0m for all commands\n");
     } else {
-        // No ANSI codes for --nocolor
+        // without ansi colors
         println!("\n  Welcome to ghk!");
         println!("\n  Simple GitHub helper - push code without the complexity");
         println!("\n  Quick start:");
@@ -73,7 +70,6 @@ fn welcome() {
         println!("\n  Run ghk --help for all commands\n");
     }
 
-    // Ensure that the output is flushed if necessary
     let _ = io::stdout().flush();
 }
 
@@ -81,7 +77,6 @@ fn welcome() {
 fn welcome() {
     use std::io::{self, Write};
 
-    // More detailed version for development
     println!("\n  =========================================");
     println!("  \x1b[1m\x1b[36mWelcome to ghk! (Development Build)\x1b[0m");
     println!("  =========================================");
@@ -102,21 +97,6 @@ fn welcome() {
     println!("  Run \x1b[90mghk --help\x1b[0m for all commands");
     println!("  =========================================\n");
 
-    // Under development, always flush for debugging
+    // for debug
     let _ = io::stdout().flush();
 }
-
-// You could also consider this alternative, drier version if you prefer:
-// #[cfg(not(debug_assertions))]
-// fn welcome() {
-//     print_welcome(false); // production
-// }
-//
-// #[cfg(debug_assertions)]
-// fn welcome() {
-//     print_welcome(true); // development
-// }
-//
-// fn print_welcome(is_debug: bool) {
-//     // common implementation with variants...
-// }
